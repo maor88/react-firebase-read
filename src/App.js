@@ -1,26 +1,60 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import firebase from 'firebase';
+import Rebase from 're-base'
+import {DB_CONFIG} from './config'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  constructor() {
+    super();
+
+    this.app = firebase.initializeApp(DB_CONFIG)
+    this.base = Rebase.createClass(this.app.database());
+    this.database = this.app.database().ref().child('names');
+    this.state = {
+      inputval: "",
+      names:"fff"
+    }
+  }
+
+  componentDidMount() {
+    this.namesRef = this.base.syncState('names',{
+      context:this,
+      state: 'names'
+    })
+  }
+
+  componentWillUnmount() {
+    this.base.removeBinding(this.namesRef)
+  }
+
+  handleSubmit = () =>  {
+    this.base.post( 'name' , {data: {name: this.state.inputval}} )
+    console.log(this.state.inputval)
+  }
+
+  onChangeHundle = (event) => {
+    this.setState({
+      inputval:event.target.value
+    })
+  }
+
+  render () {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <label>
+            Insert name:
+            <input onChange = {this.onChangeHundle}  type="text" name="name" />
+          </label>
+          <input onClick ={this.handleSubmit} type="submit" value="Submit" />
+          <div className={"names"}> {this.state.names}</div>
+        </header>
+      </div>
+    );
+  }
+
 }
 
 export default App;
