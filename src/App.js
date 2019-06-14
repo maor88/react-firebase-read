@@ -31,7 +31,9 @@ class App extends React.Component {
 
   handleSubmit = () =>  {
     this.base.post( 'name' , {data: {name: this.state.inputval}} )
-    console.log(this.state.inputval)
+    this.setState({
+      inputval:""
+    })
   }
 
   onChangeHundle = (event) => {
@@ -46,10 +48,10 @@ class App extends React.Component {
         <header className="App-header">
           <label>
             Insert name:
-            <input onChange = {this.onChangeHundle}  type="text" name="name" />
+            <input onChange = {this.onChangeHundle} value = {this.state.inputval} type="text" name="name" />
           </label>
           <input onClick ={this.handleSubmit} type="submit" value="Submit" />
-          <div className={"names"}> {this.state.names}</div>
+          {/* <div className={"names"}> {this.state.names}</div> */}
         </header>
       </div>
     );
