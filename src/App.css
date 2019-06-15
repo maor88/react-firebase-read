@@ -19,14 +19,14 @@
 }
 .names {
   color: black;
-  font-size: 14px;
+  font-size: 30px;
 }
 .App-link {
   color: #61dafb;
 }
 label {
   color: black;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   font-size: 20px;
 }
 input {
