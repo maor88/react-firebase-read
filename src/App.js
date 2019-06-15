@@ -3,6 +3,8 @@ import './App.css';
 import firebase from 'firebase';
 import Rebase from 're-base'
 import {DB_CONFIG} from './config'
+import FadeIn from 'react-fade-in';
+
 
 class App extends React.Component {
 
@@ -12,16 +14,16 @@ class App extends React.Component {
     this.app = firebase.initializeApp(DB_CONFIG)
     this.base = Rebase.createClass(this.app.database());
     this.database = this.app.database().ref().child('names');
+    this.names = []
     this.state = {
-      inputval: "",
-      names:"fff"
+      name: ""
     }
   }
 
   componentDidMount() {
     this.namesRef = this.base.syncState('names',{
       context:this,
-      state: 'names'
+      state: 'name'
     })
   }
 
@@ -29,15 +31,21 @@ class App extends React.Component {
     this.base.removeBinding(this.namesRef)
   }
 
-  handleSubmit = () =>  {
-    this.base.post( 'name' , {data: {name: this.state.inputval}} )
-    console.log(this.state.inputval)
-  }
+  showNames = () => {
+    this.names.push(this.state.name);
+    // let names = [...this.names]
+    // names.push(this.state.name)
+    console.log(this.names.length)
+    const names =  this.names.map((name,index) => 
+      // <div className = "names"> {name}</div>
 
-  onChangeHundle = (event) => {
-    this.setState({
-      inputval:event.target.value
-    })
+      <FadeIn key={index} delay = {250}>
+        <div className = "names"> {name}</div>
+      </FadeIn>
+      )
+    return (
+      names
+    );
   }
 
   render () {
@@ -45,11 +53,9 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <label>
-            Insert name:
-            <input onChange = {this.onChangeHundle}  type="text" name="name" />
+            Names:
           </label>
-          <input onClick ={this.handleSubmit} type="submit" value="Submit" />
-          <div className={"names"}> {this.state.names}</div>
+          {this.showNames()}
         </header>
       </div>
     );

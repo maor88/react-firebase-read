@@ -19,6 +19,7 @@
 }
 .names {
   color: black;
+  font-size: 14px;
 }
 .App-link {
   color: #61dafb;
@@ -26,6 +27,7 @@
 label {
   color: black;
   margin-bottom: 5px;
+  font-size: 20px;
 }
 input {
   display: block;
