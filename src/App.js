@@ -33,12 +33,7 @@ class App extends React.Component {
 
   showNames = () => {
     this.names.push(this.state.name);
-    // let names = [...this.names]
-    // names.push(this.state.name)
-    console.log(this.names.length)
     const names =  this.names.map((name,index) => 
-      // <div className = "names"> {name}</div>
-
       <FadeIn key={index} delay = {250}>
         <div className = "names"> {name}</div>
       </FadeIn>
